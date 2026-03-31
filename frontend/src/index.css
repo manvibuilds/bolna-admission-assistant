@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 @layer components {
-  /* Card — white box with subtle border */
+  /* Card — white box with subtle border, dark variant */
   .card {
-    @apply bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl;
+    @apply bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow;
   }
 
   /* Status badge variants */
