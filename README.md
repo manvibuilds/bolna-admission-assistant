@@ -1,9 +1,66 @@
-# 🎓 Delhi Model School — Admission Voice Agent Dashboard
+# 🎓 School Admission Voice AI Agent — Bolna FSE Assignment
 
-Full-stack project for Bolna FSE Assignment.
+**Built by:** Manvi Jaglan 
 
-**Flow:**  
-Parent calls → Bolna Voice Agent → webhook → FastAPI → MongoDB → React Dashboard
+---
+
+## 🎯 Problem Statement
+
+During admission season (April–May), a school receives **100+ inbound calls daily**.  
+Staff repeatedly answers the same 5 questions — fees, dates, grades, seats, callbacks.  
+Calls go unanswered, leads are lost, and there's no system to track who called or what they need.
+
+**Outcome metric:** If 60% of calls are handled by the agent, the school saves **3–4 staff hours daily** and captures **100% of leads** vs ~40% today.
+
+---
+
+## ✅ What I Built
+
+### 1. Bolna Voice Agent
+- Bilingual (English + Hindi)
+- Handles FAQs: fees, grades, admission dates
+- Collects: child name, grade, parent name, phone, callback time
+- Books callbacks and confirms details before ending
+- Fires webhook to backend after every call
+
+### 2. FastAPI Backend (deployed on Render)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/webhook` | Receives Bolna call data, saves to MongoDB |
+| GET | `/enquiries` | Fetches all leads for dashboard |
+| PATCH | `/enquiries/{id}` | Updates lead status |
+| DELETE | `/enquiries/{id}` | Deletes a lead |
+
+### 3. React Dashboard (deployed on Vercel)
+- Live dashboard with **auto-refresh every 30 seconds**
+- 3 pages: Dashboard, Call Logs, Analytics
+- Status workflow: Pending → Callback Requested → Contacted
+- Search, filter by status, manual lead entry
+- Dark mode + bilingual labels (English/Hindi)
+
+---
+
+## 🔗 Live Links
+
+| Resource | URL |
+|----------|-----|
+| 🌐 Dashboard (Vercel) | https://bolna-admission-assistant-git-main-manvibuilds-projects.vercel.app/ |
+| ⚙️ Backend API (Render) | https://bolna-admission-assistant.onrender.com/ |
+| 📡 Enquiries Endpoint | https://bolna-admission-assistant.onrender.com/enquiries |
+| 💻 GitHub Repo | https://github.com/manvibuilds/bolna-admission-assistant |
+
+---
+
+## 🏗️ Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| Voice Agent | Bolna |
+| Backend | FastAPI + Python |
+| Database | MongoDB Atlas |
+| Frontend | React + Vite + Tailwind CSS |
+| Backend Deploy | Render |
+| Frontend Deploy | Vercel |
 
 ---
 
@@ -12,15 +69,14 @@ Parent calls → Bolna Voice Agent → webhook → FastAPI → MongoDB → React
 ```
 bolna-admission-assistant/
 ├── backend/
-│   ├── main.py            # FastAPI + webhook + MongoDB
+│   ├── main.py              # FastAPI + webhook + MongoDB
 │   ├── requirements.txt
-│   └── .env.example       # copy to .env with your MONGO_URI
+│   └── .env.example
 └── frontend/
     ├── src/
-    │   ├── main.jsx        # entry point
-    │   ├── index.css       # Tailwind + custom classes
-    │   ├── App.jsx         # layout + routing
-    │   ├── api.js          # API calls to backend
+    │   ├── main.jsx
+    │   ├── App.jsx
+    │   ├── api.js            # Points to Render backend
     │   ├── pages/
     │   │   ├── Dashboard.jsx
     │   │   ├── CallLogs.jsx
@@ -30,99 +86,18 @@ bolna-admission-assistant/
     │       └── AddLeadModal.jsx
     ├── index.html
     ├── package.json
-    ├── vite.config.js
-    ├── tailwind.config.js
-    └── vercel.json         # SPA routing fix for Vercel
+    └── vercel.json           # SPA routing fix
 ```
 
 ---
 
-## ⚙️ Step 1 — MongoDB Atlas Setup
-
-1. Go to https://cloud.mongodb.com  
-2. Click **Connect** on Cluster0  
-3. Choose **Drivers → Python**  
-4. Copy the connection string  
-5. Replace `<password>` with your actual password  
-
----
-
-## 🚀 Step 2 — Deploy Backend to Render
-
-1. Push repo to GitHub  
-2. Go to https://render.com → **New → Web Service**  
-3. Connect your repo  
-
-**Settings:**
-- Root Directory: `backend`
-- Build Command: `pip install -r requirements.txt`
-- Start Command:
-  ```bash
-  uvicorn main:app --host 0.0.0.0 --port $PORT
-  ```
-
-**Environment Variable:**
-- Key: `MONGO_URI`
-- Value: your MongoDB connection string  
-
----
-
-## 🔗 Step 3 — Add Webhook URL to Bolna
-
-1. Go to https://platform.bolna.ai  
-2. Open **School Admission Assistant → Tools tab**  
-3. Find `save_admission_lead`  
-4. Set URL:
-   ```
-   https://your-render-url.onrender.com/webhook
-   ```
-5. Save  
-
----
-
-## 🌐 Step 4 — Deploy Frontend to Vercel
-
-1. Go to https://vercel.com → New Project  
-2. Import repo  
-
-**Settings:**
-- Root Directory: `frontend`
-- Build Command: `npm run build`
-- Output Directory: `dist`
-
-**Environment Variable:**
-- Key: `VITE_API_URL`
-- Value: your backend URL  
-
----
-
-## 🧪 Step 5 — Test the Flow
-
-1. Open your Vercel dashboard  
-2. On Bolna → click **"Get call from agent"**  
-3. Complete admission flow  
-4. Watch leads appear in dashboard  
-
----
-
-## 📡 API Endpoints
-
-| Method | Endpoint           | Description            |
-|--------|------------------|------------------------|
-| POST   | `/webhook`        | Receive call data      |
-| GET    | `/enquiries`      | Fetch all leads        |
-| PATCH  | `/enquiries/{id}` | Update lead status     |
-| DELETE | `/enquiries/{id}` | Delete lead            |
-
----
-
-## 💻 Local Development
+## 🚀 Local Setup
 
 ### Backend
 ```bash
 cd backend
 pip install -r requirements.txt
-cp .env.example .env
+cp .env.example .env        # add your MONGO_URI
 uvicorn main:app --reload
 ```
 
@@ -130,10 +105,35 @@ uvicorn main:app --reload
 ```bash
 cd frontend
 npm install
-cp .env.example .env
+cp .env.example .env        # add VITE_API_URL
 npm run dev
 ```
 
 ---
 
-# 📦 bolna-admission-assistant
+## ⚠️ Production Note
+
+This project is **production-ready**. To go fully live:
+1. Purchase an inbound phone number from Bolna
+2. Attach it to the agent
+3. Add the number to the school's website
+---
+
+## 🔄 Full Flow
+
+```
+Parent calls → Bolna Agent answers
+    → Collects: child name, grade, parent name, phone
+    → Answers: fees, dates, seat availability
+    → Books callback if needed
+    → Webhook fires to FastAPI /webhook
+    → Data saved in MongoDB Atlas
+    → React dashboard shows lead in real time
+    → Admin updates status: Pending → Contacted
+```
+
+---
+
+## 🌟 Real-World Context
+
+I'm currently building a chatbot for a School that handles ERP flows — admissions, fee queries, attendance — for real school operations. While exploring voice AI for that project, I tried Bharat Voice, WebRTC, and other solutions. When I explored Bolna for this assignment, it was genuinely the best experience — structured, fast, and production-ready.
