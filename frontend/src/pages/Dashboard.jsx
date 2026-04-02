@@ -11,6 +11,7 @@ import {
 import { getEnquiries, updateStatus } from "../api";
 import StatusBadge from "../components/StatusBadge";
 import AddLeadModal from "../components/AddLeadModal";
+import { normalizeEnquiry } from "../utils/normalizers";
 
 const STATUS_CYCLE = ["Pending", "Callback Requested", "Contacted"];
 
@@ -29,7 +30,7 @@ export default function Dashboard() {
     setSyncing(true);
     try {
       const data = await getEnquiries();
-      setEnquiries(data.enquiries || []);
+      setEnquiries((data.enquiries || []).map(normalizeEnquiry));
       setError(false);
       setLastSync(new Date());
     } catch {

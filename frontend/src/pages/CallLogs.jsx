@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Phone, RefreshCw, Trash2 } from "lucide-react";
 import { getEnquiries, deleteEnquiry } from "../api";
 import StatusBadge from "../components/StatusBadge";
+import { normalizeEnquiry } from "../utils/normalizers";
 
 export default function CallLogs() {
   const [logs, setLogs] = useState([]);
@@ -11,7 +12,7 @@ export default function CallLogs() {
     setLoading(true);
     try {
       const data = await getEnquiries();
-      setLogs(data.enquiries || []);
+      setLogs((data.enquiries || []).map(normalizeEnquiry));
     } catch {}
     setLoading(false);
   };

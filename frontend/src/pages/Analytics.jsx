@@ -13,6 +13,7 @@ import {
   Legend,
 } from "recharts";
 import { RefreshCw } from "lucide-react";
+import { normalizeEnquiry } from "../utils/normalizers";
 
 const COLORS = [
   "#c84b2f",
@@ -30,7 +31,7 @@ export default function Analytics() {
   useEffect(() => {
     getEnquiries()
       .then((d) => {
-        setData(d.enquiries || []);
+        setData((d.enquiries || []).map(normalizeEnquiry));
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -63,10 +64,10 @@ export default function Analytics() {
     },
   ].filter((d) => d.value > 0);
 
-  // Callback rate
+  // Callback rate based on workflow status
   const callbackRate = data.length
     ? Math.round(
-        (data.filter((e) => e.callback_requested === "yes").length /
+        (data.filter((e) => e.status === "Callback Requested").length /
           data.length) *
           100,
       )
