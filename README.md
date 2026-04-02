@@ -6,7 +6,7 @@
 
 ## 🎯 Problem Statement
 
-During admission season (April–May), a school receives **100+ inbound calls daily**.  
+During admission season , a school receives **100+ inbound calls daily**.  
 Staff repeatedly answers the same 5 questions — fees, dates, grades, seats, callbacks.  
 Calls go unanswered, leads are lost, and there's no system to track who called or what they need.
 
