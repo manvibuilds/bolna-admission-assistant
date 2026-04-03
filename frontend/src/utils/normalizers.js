@@ -71,6 +71,22 @@ const MISC = {
 
 const HALANT = '\u094D';
 
+const NUMBER_WORDS = {
+  zero: '0',
+  one: '1',
+  two: '2',
+  three: '3',
+  four: '4',
+  five: '5',
+  six: '6',
+  seven: '7',
+  eight: '8',
+  nine: '9',
+  ten: '10',
+  eleven: '11',
+  twelve: '12',
+};
+
 function transliterateDevanagari(input) {
   if (!input || !DEVANAGARI_REGEX.test(input)) return input || '';
 
@@ -142,6 +158,15 @@ export function normalizeGrade(grade) {
   if (lower === 'nursery') return 'Nursery';
   if (lower === 'lkg') return 'LKG';
   if (lower === 'ukg') return 'UKG';
+
+  if (NUMBER_WORDS[lower]) {
+    return `Class ${NUMBER_WORDS[lower]}`;
+  }
+
+  const classWordMatch = lower.match(/^(?:class|grade)\s+(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)$/);
+  if (classWordMatch) {
+    return `Class ${NUMBER_WORDS[classWordMatch[1]]}`;
+  }
 
   const numMatch = lower.match(/^(?:class|grade)?\s*([0-9]{1,2})$/);
   if (numMatch) {
